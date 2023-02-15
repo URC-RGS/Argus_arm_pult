@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"name": "main_Argus_arm_pult",
+			"path": "../main_Argus_arm_pult"
+		},
+		{
+			"name": "dop_Argus_arm_pult",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"cmath": "cpp",
+			"string": "cpp"
+		}
+	}
+}
