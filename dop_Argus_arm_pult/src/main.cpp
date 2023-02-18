@@ -4,6 +4,10 @@
 
 void setup() {
 
+  
+  Serial1.setRX(UART_RX);
+  Serial1.setTX(UART_TX);
+  Serial1.begin(57600);
   Serial.begin(9600);
 
   pinMode(PIN_BUT0, INPUT);
@@ -47,8 +51,8 @@ void loop() {
     
   }
 
-  Serial.println(OutData);
-  OutData = "$";
-  delay(100);
-
+  Serial1.println(OutData);
+  OutData = "";
+  delay(10);
+                      
 }
