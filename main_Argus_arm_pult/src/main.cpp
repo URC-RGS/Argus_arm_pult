@@ -3,7 +3,7 @@
 #include <AsyncStream.h>
 #include <Config.h>
 
-AsyncStream<50> serial1(&Serial1, ';');
+AsyncStream<50> serial1(&Serial, ';');
 
 void setup()
 {
@@ -70,30 +70,39 @@ void loop() {
      if (serial1.available()) {
         // парсинг принятых данных 
        GParser data = GParser(serial1.buf, ' ');
-       int count = data.split();
+      //  int count = data.split();
 
       // отладка 
-      if (DEBUG){
-        Serial.println("###");
-        for (byte i = 0; i < count; i++)
-          Serial.println(data[i]);
-      }
+      // if (DEBUG){
+      //   Serial.println("###");
+      //   for (byte i = 0; i < count; i++)
+      //     Serial.println(data[i]);
+      //   Serial.println("###");
+      // }
 
       // преобразование str to int
       int CountIN = data.parseInts(ButtonStateInput);
 
-      // вывод на транзисторы 
-      digitalWrite(PIN_OUT0, ButtonStateInput[0]);
-      digitalWrite(PIN_OUT1, ButtonStateInput[1]);
-      digitalWrite(PIN_OUT2, ButtonStateInput[2]);
-      digitalWrite(PIN_OUT3, ButtonStateInput[3]);
-      digitalWrite(PIN_OUT4, ButtonStateInput[4]);
-      digitalWrite(PIN_OUT5, ButtonStateInput[5]);
-      digitalWrite(PIN_OUT6, ButtonStateInput[6]);
-      digitalWrite(PIN_OUT7, ButtonStateInput[7]);
-      digitalWrite(PIN_OUT8, ButtonStateInput[8]);
-      digitalWrite(PIN_OUT9, ButtonStateInput[9]);
+      // отладка 
+      if (DEBUG){
+        Serial.println("###");
+        for (byte i = 1; i < 12; i++)
+          Serial.println(ButtonStateInput[i]);
+        Serial.println("###");
+      }
 
+      // вывод на транзисторы 
+      digitalWrite(PIN_OUT0, ButtonStateInput[1]);
+      digitalWrite(PIN_OUT1, ButtonStateInput[2]);
+      digitalWrite(PIN_OUT2, ButtonStateInput[3]);
+      digitalWrite(PIN_OUT3, ButtonStateInput[4]);
+      digitalWrite(PIN_OUT4, ButtonStateInput[5]);
+      digitalWrite(PIN_OUT5, ButtonStateInput[6]);
+      digitalWrite(PIN_OUT6, ButtonStateInput[7]);
+      digitalWrite(PIN_OUT7, ButtonStateInput[8]);
+      digitalWrite(PIN_OUT8, ButtonStateInput[9]);
+      digitalWrite(PIN_OUT9, ButtonStateInput[10]);
+      
      }
   }
 }
