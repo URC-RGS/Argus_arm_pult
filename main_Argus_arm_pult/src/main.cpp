@@ -95,12 +95,11 @@ void loop() {
       // вывод преобразованой к int принятого пакета (отладка)
       if (DEBUG){
         Serial.println("###");
-        for (byte i = 1; i < 13; i++)
-          Serial.print(ButtonStateInput[i]);
-          Serial.print(ButtonStateInput[i]);
+        for (byte i = 1; i < 13; i++){
+          Serial.print(ButtonStateInput[i]);}
         Serial.println("###");
-      }
-
+        }
+      
       // вывод на транзисторы (из-за особенностей парсера, нулевой элемент не берем)
       // индексы соответсвуют подписям на пульте 
       digitalWrite(PIN_OUT0, ButtonStateInput[1]);
