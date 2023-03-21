@@ -36,6 +36,6 @@ const uint16_t LED = 27;
 const uint16_t MODE = 28;
 
 // массивы значений 
-int ButtonStateInput[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int ButtonStateInput[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 

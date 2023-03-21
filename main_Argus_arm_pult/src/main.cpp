@@ -3,12 +3,13 @@
 #include <AsyncStream.h>
 #include <Config.h>
 
-AsyncStream<50> serial1(&Serial, ';');
+// инициализация асинхронного обработчика Serial1
+AsyncStream<50> serial12(&Serial1, ';');
 
 void setup()
 {
-  // инициализация отлабочного сериала 
-  if (DEBUG) Serial.begin(115200);
+  // инициализация отладочного сериала 
+  if (DEBUG) Serial.begin(57600);
 
   // инициализация сериала для работы с внешним пультом 
   Serial1.setRX(UART_RX);
@@ -16,6 +17,7 @@ void setup()
   Serial1.begin(57600);
 
   // инициализация переключателя выбора режима и индикаторного светодиода 
+  // по умолчанию кнопка переключения притянута к земле 
   pinMode(MODE, INPUT_PULLDOWN);
   pinMode(LED, OUTPUT);
   
@@ -53,7 +55,10 @@ void loop() {
     // обработка нажатий штатных кнопок 
     if (DEBUG) Serial.println("Default");
 
-    // вывод на транзисторы 
+    // выключаем светодиод на кнопке 
+    digitalWrite(LED, 0);
+
+    // опрос кнопок и вывод на транзисторы (имметируем работу штатных кнопок)
     digitalWrite(PIN_OUT0, digitalRead(PIN_BUT0));
     digitalWrite(PIN_OUT1, digitalRead(PIN_BUT1));
     digitalWrite(PIN_OUT2, digitalRead(PIN_BUT2));
@@ -67,12 +72,16 @@ void loop() {
 
   } else {
     // обработка внешнего пульта 
-     if (serial1.available()) {
-        // парсинг принятых данных 
-       GParser data = GParser(serial1.buf, ' ');
-      //  int count = data.split();
+     if (serial12.available()) {
 
-      // отладка 
+      // включаем светодиод на кнопке 
+      digitalWrite(LED, 1);
+
+      // парсинг принятых данных 
+      GParser data = GParser(serial12.buf, ' ');
+      
+      // вывод принятой инфрмации (отладка)
+      // int count = data.split();
       // if (DEBUG){
       //   Serial.println("###");
       //   for (byte i = 0; i < count; i++)
@@ -80,18 +89,20 @@ void loop() {
       //   Serial.println("###");
       // }
 
-      // преобразование str to int
+      // парсинг и преобразование str to int
       int CountIN = data.parseInts(ButtonStateInput);
 
-      // отладка 
+      // вывод преобразованой к int принятого пакета (отладка)
       if (DEBUG){
         Serial.println("###");
-        for (byte i = 1; i < 12; i++)
-          Serial.println(ButtonStateInput[i]);
+        for (byte i = 1; i < 13; i++)
+          Serial.print(ButtonStateInput[i]);
+          Serial.print(ButtonStateInput[i]);
         Serial.println("###");
       }
 
-      // вывод на транзисторы 
+      // вывод на транзисторы (из-за особенностей парсера, нулевой элемент не берем)
+      // индексы соответсвуют подписям на пульте 
       digitalWrite(PIN_OUT0, ButtonStateInput[1]);
       digitalWrite(PIN_OUT1, ButtonStateInput[2]);
       digitalWrite(PIN_OUT2, ButtonStateInput[3]);

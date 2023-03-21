@@ -1,4 +1,9 @@
 
+const bool DEBUG = true;
+
+// установка задержки между опросами джойстика 
+const uint16_t TIMEOUT = 10;
+
 // пины опроса кнопок
 const uint16_t PIN_BUT0 = 0;
 const uint16_t PIN_BUT1 = 1;
@@ -17,6 +22,8 @@ const uint16_t PIN_BUT11 = 11;
 const uint16_t UART_RX = 17;
 const uint16_t UART_TX = 16;
 
+// массивы значений 
 int ButtonState[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 String OutData = "";
 
